@@ -1,3 +1,6 @@
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
 import pisces.utils.io as io
 import pisces.utils.sh as sh
 
