@@ -1,3 +1,3 @@
-import utils.hello
+import pisces.utils.hello
 
-utils.hello.hello()
+pisces.utils.hello.say_hello()
