@@ -7,7 +7,7 @@ import pisces.config as config
 
 def run():
     sh.exe('wget https://codeload.github.com/Leo-Lei/docker/zip/master -O /opt/docker.zip')
-    sh.exe('unzip /opt/docker.zip')
+    sh.exe('unzip /opt/docker.zip -d /opt')
     build_zk_img()
     run_zk_container()
 
