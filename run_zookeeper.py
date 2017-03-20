@@ -7,9 +7,8 @@ import sys
 
 
 def run():
-    if(len(sys.argv)) > 0:
-        if sys.argv[1] == 'push':
-            build_zk_img()
+    if(len(sys.argv)) > 1 and sys.argv[1] == 'push':
+        build_zk_img()
     run_zk_container()
 
 
