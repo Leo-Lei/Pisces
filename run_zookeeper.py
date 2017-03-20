@@ -13,7 +13,7 @@ def run():
 
 
 def build_zk_img():
-    build_cmd = 'docker build -t {0}/zookeeper /opt/docker-master/zookeeper/Dockerfile'.format(config.docker_registry_url)
+    build_cmd = 'docker build -t {0}/zookeeper -f /opt/docker-master/zookeeper/Dockerfile'.format(config.docker_registry_url)
     sh.exe(build_cmd)
     # push_cmd = 'docker push {0}/zookeeper'.format(config.docker_registry_url)
     # sh.exe(push_cmd)
