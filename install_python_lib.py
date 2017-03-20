@@ -6,8 +6,6 @@ import shutil
 
 
 def run():
-    if not os.path.exists('/opt/python-lib'):
-        os.mkdir('/opt/python-lib')
     copyfile(os.path.join(getcwd(), 'pisces-python-lib.pth.sample'),
              '/usr/lib/python2.7/site-packages/pisces-python-lib.pth')
     copyfile(os.path.join(getcwd(), 'pisces-python-lib.pth.sample'),
