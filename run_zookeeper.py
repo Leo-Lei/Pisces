@@ -3,20 +3,22 @@
 
 import pisces.utils.sh as sh
 import pisces.config as config
+import sys
 
 
 def run():
-    sh.exe('wget https://codeload.github.com/Leo-Lei/docker/zip/master -O /opt/docker.zip')
-    sh.exe('unzip /opt/docker.zip -d /opt')
-    build_zk_img()
+    if(len(sys.argv)) > 0 and sys.argv[1] == 'push':
+        build_zk_img()
     run_zk_container()
 
 
 def build_zk_img():
+    sh.exe('wget https://codeload.github.com/Leo-Lei/docker/zip/master -O /opt/docker.zip')
+    sh.exe('unzip /opt/docker.zip -d /opt')
     build_cmd = 'docker build -t {0}/zookeeper /opt/docker-master/zookeeper'.format(config.docker_registry_url)
     sh.exe(build_cmd)
-    # push_cmd = 'docker push {0}/zookeeper'.format(config.docker_registry_url)
-    # sh.exe(push_cmd)
+    push_cmd = 'docker push {0}/zookeeper'.format(config.docker_registry_url)
+    sh.exe(push_cmd)
 
 
 def run_zk_container():
