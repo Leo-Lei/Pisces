@@ -25,7 +25,7 @@ def build_zk_img():
 
 
 def run_zk_container():
-    cmd = 'docker run --name zookeeper -d -p 2181:2181 -v /var/lib/zookeeper:/var/lib/zookeeper -v /var/logs/zookeeper {0}/zookeeper'.format(config.docker_registry_url)
+    cmd = 'docker run --name zookeeper -d -p 2181:2181 -v /var/lib/zookeeper:/tmp/zookeeper {0}/zookeeper'.format(config.docker_registry_url)
     sh.exe(cmd)
 
 
