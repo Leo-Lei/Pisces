@@ -13,6 +13,8 @@ def run():
 
 
 def build_zk_img():
+    sh.exe('rm -rf /opt/docker.zip')
+    sh.exe('rm -rf /opt/docker-master')
     sh.exe('wget https://codeload.github.com/Leo-Lei/docker/zip/master -O /opt/docker.zip')
     sh.exe('unzip /opt/docker.zip -d /opt')
     build_cmd = 'docker build -t {0}/zookeeper /opt/docker-master/zookeeper'.format(config.docker_registry_url)
