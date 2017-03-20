@@ -3,3 +3,6 @@
 wget https://codeload.github.com/Leo-Lei/Pisces/zip/master -O /opt/pisces.zip
 yum install -y unzip
 unzip /opt/pisces.zip
+
+chmod 744 /opt/Pisces-master/install_python_lib.py
+/opt/Pisces-master/install_python_lib.py
