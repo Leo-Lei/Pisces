@@ -17,6 +17,7 @@ def build_zk_img():
     sh.exe('rm -rf /opt/docker-master')
     sh.exe('wget https://codeload.github.com/Leo-Lei/docker/zip/master -O /opt/docker.zip')
     sh.exe('unzip /opt/docker.zip -d /opt')
+    sh.exe('rm -rf /opt/docker.zip')
     build_cmd = 'docker build -t {0}/zookeeper /opt/docker-master/zookeeper'.format(config.docker_registry_url)
     sh.exe(build_cmd)
     push_cmd = 'docker push {0}/zookeeper'.format(config.docker_registry_url)
