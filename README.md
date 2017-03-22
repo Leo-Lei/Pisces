@@ -1,7 +1,7 @@
 # Get started now!
 在终端执行如下命令，该脚本会将一切都准备好，就是这么简单
 ```bash
-curl -s "https://raw.githubusercontent.com/Leo-Lei/Pisces/master/.install.sh" | bash
+curl -s "https://raw.githubusercontent.com/Leo-Lei/Pisces/master/install.sh" | bash
 ```
 脚本将会做以下事情：
 1. 安装一些自定义python模块，包括一些工具类库
