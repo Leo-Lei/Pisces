@@ -2,6 +2,7 @@
 
 yum install -y wget
 yum install -y unzip
+yum install -y vim
 wget https://codeload.github.com/Leo-Lei/Pisces/zip/master -O /opt/pisces.zip
 unzip /opt/pisces.zip -d /opt
 rm -rf /opt/pisces.zip
