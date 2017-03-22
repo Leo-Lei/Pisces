@@ -6,5 +6,11 @@ unzip /opt/pisces.zip -d /opt
 rm -rf /opt/pisces.zip
 
 chmod 744 /opt/Pisces-master/install_python_lib.py
-chmod 744 /opt/Pisces-master/run_zookeeper.py
+chmod 744 /opt/Pisces-master/install_docker.py
+
+# install python modules to {python}/site-packages
 /opt/Pisces-master/install_python_lib.py
+# install docker engine
+/opt/Pisces-master/install_docker.py
+
+chmod 744 /opt/Pisces-master/run_zookeeper.py
