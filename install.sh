@@ -11,12 +11,12 @@ cp -r /opt/Pisces-master/* /opt/pisces
 rm -rf /opt/Pisces-master
 
 
-chmod 744 /opt/Pisces-master/install_python_lib.py
-chmod 744 /opt/Pisces-master/install_docker.py
+chmod 744 /opt/pisces/install_python_lib.py
+chmod 744 /opt/pisces/install_docker.py
 
 # install python modules to {python}/site-packages
-/opt/Pisces-master/install_python_lib.py
+/opt/pisces/install_python_lib.py
 # install docker engine
-/opt/Pisces-master/install_docker.py
+/opt/pisces/install_docker.py
 
-chmod 744 /opt/Pisces-master/run_zookeeper.py
+chmod 744 /opt/pisces/run_zookeeper.py
