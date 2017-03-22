@@ -1,9 +1,15 @@
 #! /usr/bin/bash
 
-wget https://codeload.github.com/Leo-Lei/Pisces/zip/master -O /opt/pisces.zip
+yum install -y wget
 yum install -y unzip
+wget https://codeload.github.com/Leo-Lei/Pisces/zip/master -O /opt/pisces.zip
 unzip /opt/pisces.zip -d /opt
 rm -rf /opt/pisces.zip
+rm -rf pisces
+mkdir /opt/pisces
+cp -r /opt/Pisces-master/* /opt/pisces
+rm -rf /opt/Pisces-master
+
 
 chmod 744 /opt/Pisces-master/install_python_lib.py
 chmod 744 /opt/Pisces-master/install_docker.py
