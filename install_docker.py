@@ -17,6 +17,8 @@ def start_docker():
 
 
 def add_docker_registry():
+    if not os.path.exists('/opt/docker'):
+        os.system('mkdir /opt/docker')
     copyfile(os.path.join(getcwd(), 'daemon.json.sample'), '/etc/docker/daemon.json')
 
 
