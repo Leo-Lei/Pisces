@@ -19,6 +19,8 @@ chmod 744 /opt/pisces/install_docker.py
 /opt/pisces/install_python_lib.py
 # install docker engine
 /opt/pisces/install_docker.py
+# install java
+/opt/pisces/install_java.py
 
 chmod 744 /opt/pisces/run_zookeeper.py
 

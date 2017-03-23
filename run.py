@@ -3,6 +3,7 @@
 
 import os
 import shutil
+import pisces.utils.sh as sh
 
 
 def run():
@@ -23,7 +24,8 @@ def getcwd():
 
 
 def run_jar():
-    print 'run jar......'
+    sh.exe('systemctl daemon-reload')
+    sh.exe('systemctl restart jar.service')
 
 
 def run_war():
