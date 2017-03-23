@@ -25,7 +25,7 @@ def getcwd():
 
 def run_jar():
     sh.exe('systemctl daemon-reload')
-    sh.exe('systemctl restart jar.service')
+    sh.exe('systemctl restart app.service')
 
 
 def run_war():
