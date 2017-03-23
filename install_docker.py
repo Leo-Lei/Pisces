@@ -22,6 +22,11 @@ def add_docker_registry():
     copyfile(os.path.join(getcwd(), 'daemon.json.sample'), '/etc/docker/daemon.json')
 
 
+def install_dockercompose():
+    os.system('curl -L https://github.com/docker/compose/releases/download/1.12.0-rc1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose')
+    os.system('chmod +x /usr/local/bin/docker-compose')
+
+
 def getcwd():
     return os.path.split(os.path.realpath(__file__))[0]
 
