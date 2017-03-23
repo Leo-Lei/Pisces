@@ -21,6 +21,7 @@ chmod 744 /opt/pisces/*.py
 /opt/pisces/install_java.py
 
 /opt/pisces/install_springboot_service.py
+/opt/pisces/download_dockerfile.py
 
 cp /opt/pisces/run.py /opt/run.py
 chmod 744 /opt/run.py
