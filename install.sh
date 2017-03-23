@@ -11,9 +11,7 @@ mkdir /opt/pisces
 cp -r /opt/Pisces-master/* /opt/pisces
 rm -rf /opt/Pisces-master
 
-
-chmod 744 /opt/pisces/install_python_lib.py
-chmod 744 /opt/pisces/install_docker.py
+chmod 744 /opt/pisces/*.py
 
 # install python modules to {python}/site-packages
 /opt/pisces/install_python_lib.py
@@ -23,10 +21,6 @@ chmod 744 /opt/pisces/install_docker.py
 /opt/pisces/install_java.py
 
 /opt/pisces/install_springboot_service.py
-
-chmod 744 /opt/pisces/run_zookeeper.py
-chmod 744 /opt/pisces/install_springboot_service.py
-chmod 744 /opt/pisces/install_java.py
 
 cp /opt/pisces/run.py /opt/run.py
 chmod 744 /opt/run.py
