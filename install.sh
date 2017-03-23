@@ -22,6 +22,8 @@ chmod 744 /opt/pisces/install_docker.py
 # install java
 /opt/pisces/install_java.py
 
+/opt/pisces/install_springboot_service.py
+
 chmod 744 /opt/pisces/run_zookeeper.py
 
 cp /opt/pisces/run.py /opt/run.py
