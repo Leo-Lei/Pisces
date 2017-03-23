@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import pisces.utils.io as io
+import shutil
 
 
 def install_docker():
@@ -17,8 +17,15 @@ def start_docker():
 
 
 def add_docker_registry():
-    io.copyfile('daemon.json.sample', '/etc/docker/daemon.json')
+    copyfile(os.path.join(getcwd(), 'daemon.json.sample'), '/etc/docker/daemon.json')
 
+
+def getcwd():
+    return os.path.split(os.path.realpath(__file__))[0]
+
+
+def copyfile(src, dst):
+    shutil.copyfile(src, dst)
 
 if __name__ == '__main__':
     install_docker()
