@@ -25,3 +25,4 @@ chmod 744 /opt/pisces/*.py
 
 cp /opt/pisces/run.py /opt/run.py
 chmod 744 /opt/run.py
+cp /opt/pisces/app.conf /opt/app.conf

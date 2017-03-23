@@ -19,7 +19,7 @@ def run():
 
 def init_config():
     cp = ConfigParser.SafeConfigParser()
-    cp.read('app.conf')
+    cp.read('/opt/app.conf')
     zookeeper_download_url = cp.get('docker-file', 'zookeeper_download_url')
     io.replace_str_in_file('/opt/docker/docker-disconf/disconf-zoo/Dockerfile.sample',
                            '${zookeeper_download_url}',
