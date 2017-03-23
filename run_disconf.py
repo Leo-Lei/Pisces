@@ -26,6 +26,12 @@ def init_config():
                            zookeeper_download_url,
                            '/opt/docker/docker-disconf/disconf-zoo/Dockerfile')
 
+    disconf_download_url = cp.get('docker-file', 'disconf_download_url')
+    io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/Dockerfile.sample',
+                           '${disconf_download_url}',
+                           disconf_download_url,
+                           '/opt/docker/docker-disconf/disconf-build/Dockerfile')
+
 
 if __name__ == '__main__':
     run()
