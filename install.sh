@@ -21,3 +21,6 @@ chmod 744 /opt/pisces/install_docker.py
 /opt/pisces/install_docker.py
 
 chmod 744 /opt/pisces/run_zookeeper.py
+
+cp /opt/pisces/run.py /opt/run.py
+chmod 744 /opt/run.py
