@@ -6,6 +6,7 @@ import shutil
 
 
 def run():
+    copy_to_app_dir()
     jar_or_war = is_jar_or_war()
     if jar_or_war == 'jar':
         run_jar()
