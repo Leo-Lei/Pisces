@@ -30,7 +30,16 @@ def run_war():
 
 
 def is_jar_or_war():
-    return 'jar'
+    if os.path.exists('/opt/app/app.jar'):
+        return 'jar'
+    else:
+        return 'war'
+
+
+def copy_to_app_dir():
+    os.system('rm -rf /opt/app/*')
+    os.system('cp /opt/*.jar /opt/app/app.jar')
+    os.system('cp /opt/*.war /opt/app/app.war')
 
 
 if __name__ == '__main__':
