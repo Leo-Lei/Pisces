@@ -48,10 +48,10 @@ def download_disconf():
     os.system('curl {0} -o /opt/disconf-war.tar.gz'.format(disconf_download_url))
     os.system('tar -xzvf /opt/disconf-war.tar.gz -C /opt')
 
-    os.system('cp /opt/docker/docker-disconf/disconf-build/config/application.properties.sample /opt/disconf-war/WEB-INF/classes/application.properties.sample')
-    os.system('cp /opt/docker/docker-disconf/disconf-build/config/jdbc-mysql.properties.sample /opt/disconf-war/WEB-INF/classes/jdbc-mysql.properties.sample')
-    os.system('cp /opt/docker/docker-disconf/disconf-build/config/redis-config.properties.sample /opt/disconf-war/WEB-INF/classes/redis-config.properties.sample')
-    io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/config/zoo.properties.sample','${zookeeper-host}',disconf_machine_ip,'/opt/disconf-war/WEB-INF/classes/zoo.properties.sample')
+    os.system('cp /opt/docker/docker-disconf/disconf-build/config/application.properties.sample /opt/disconf-war/WEB-INF/classes/application.properties')
+    os.system('cp /opt/docker/docker-disconf/disconf-build/config/jdbc-mysql.properties.sample /opt/disconf-war/WEB-INF/classes/jdbc-mysql.properties')
+    os.system('cp /opt/docker/docker-disconf/disconf-build/config/redis-config.properties.sample /opt/disconf-war/WEB-INF/classes/redis-config.properties')
+    io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/config/zoo.properties.sample','${zookeeper-host}',disconf_machine_ip,'/opt/disconf-war/WEB-INF/classes/zoo.properties')
 
 
 if __name__ == '__main__':
