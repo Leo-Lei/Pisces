@@ -7,7 +7,7 @@ import pisces.utils.io as io
 
 
 def run():
-    download_disconf
+    download_disconf()
     delete_all_containers()
     init_config()
     # cmd = 'docker build -t {0}/disconf-build /opt/docker/docker-disconf/disconf-build'.format(config.docker_registry_url)
