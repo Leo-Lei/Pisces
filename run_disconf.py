@@ -22,6 +22,11 @@ def run():
 
 def delete_all_containers():
     os.system('docker rm `docker ps -a -q`')
+    os.system('docker rmi disconfcompose_disconf-zoo')
+    os.system('docker rmi disconfcompose_disconf-redis')
+    os.system('docker rmi disconfcompose_disconf-mysql')
+    os.system('docker rmi disconfcompose_disconf-app')
+    os.system('docker rmi disconfcompose_disconf-nginx')
 
 
 def init_config():
@@ -38,6 +43,7 @@ def init_config():
                            '${disconf_download_url}',
                            disconf_download_url,
                            '/opt/docker/docker-disconf/disconf-build/Dockerfile')
+    os.system('cp /opt/docker/docker-disconf/disconf-app/Dockerfile.sample /opt/docker/docker-disconf/disconf-app/Dockerfile')
 
 
 def download_disconf():
