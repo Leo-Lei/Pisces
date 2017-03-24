@@ -1,7 +1,7 @@
 #! /usr/bin/python
 
 import os
-import pisces.config as config
+# import pisces.config as config
 import ConfigParser
 import pisces.utils.io as io
 
@@ -10,10 +10,10 @@ def run():
     # download_disconf()
     delete_all_containers()
     init_config()
-    cmd = 'docker build -t {0}/disconf-build /opt/docker/docker-disconf/disconf-build'.format(config.docker_registry_url)
+    cmd = 'docker build -t disconf-build /opt/docker/docker-disconf/disconf-build'
     os.system(cmd)
 
-    cmd = 'docker run -v /opt/docker/docker-disconf/disconf-build/working:/home/work/dsp/disconf-rd/working -v /opt/docker/docker-disconf/disconf-build/config:/home/work/dsp/disconf-rd/online-resources --name disconf-build {0}/disconf-build'.format(config.docker_registry_url)
+    cmd = 'docker run -v /opt/docker/docker-disconf/disconf-build/working:/home/work/dsp/disconf-rd/working -v /opt/docker/docker-disconf/disconf-build/config:/home/work/dsp/disconf-rd/online-resources --name disconf-build disconf-build'
     os.system(cmd)
 
     cmd = 'docker-compose -f /opt/docker/docker-disconf/disconf-compose/docker-compose.yml up'
@@ -44,6 +44,12 @@ def init_config():
                            disconf_download_url,
                            '/opt/docker/docker-disconf/disconf-build/Dockerfile')
     os.system('cp /opt/docker/docker-disconf/disconf-app/Dockerfile.sample /opt/docker/docker-disconf/disconf-app/Dockerfile')
+
+    disconf_machine_ip = cp.get('docker-disconf', 'docker-disconf-machine-ip')
+    os.system('cp /opt/docker/docker-disconf/disconf-build/config/application.properties.sample /opt/docker/docker-disconf/disconf-build/config/application.properties')
+    os.system('cp /opt/docker/docker-disconf/disconf-build/config/jdbc-mysql.properties.sample /opt/docker/docker-disconf/disconf-build/config/jdbc-mysql.properties')
+    os.system('cp /opt/docker/docker-disconf/disconf-build/config/redis-config.properties.sample /opt/docker/docker-disconf/disconf-build/config/redis-config.properties')
+    io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/config/zoo.properties.sample','${zookeeper-host}',disconf_machine_ip,'/opt/docker/docker-disconf/disconf-build/config/zoo.properties')
 
 
 # def download_disconf():
