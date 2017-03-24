@@ -53,6 +53,7 @@ def download_disconf():
     disconf_machine_ip = cp.get('docker-disconf','docker-disconf-machine-ip')
     os.system('curl {0} -o /opt/disconf-war.tar.gz'.format(disconf_download_url))
     os.system('tar -xzvf /opt/disconf-war.tar.gz -C /opt')
+    os.system('chown -R tomcat:tomcat /opt/disconf-war')
 
     os.system('cp /opt/docker/docker-disconf/disconf-build/config/application.properties.sample /opt/disconf-war/WEB-INF/classes/application.properties')
     os.system('cp /opt/docker/docker-disconf/disconf-build/config/jdbc-mysql.properties.sample /opt/disconf-war/WEB-INF/classes/jdbc-mysql.properties')
