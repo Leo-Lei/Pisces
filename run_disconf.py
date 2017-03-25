@@ -34,8 +34,7 @@ def init_config():
     cp.read('/opt/app.conf')
     zookeeper_download_url = cp.get('docker-file', 'zookeeper_download_url')
     io.replace_str_in_file('/opt/docker/docker-disconf/disconf-zoo/Dockerfile.sample',
-                           '${zookeeper_download_url}',
-                           zookeeper_download_url,
+                           {'${zookeeper_download_url}':zookeeper_download_url},
                            '/opt/docker/docker-disconf/disconf-zoo/Dockerfile')
 
     disconf_download_url = cp.get('docker-file', 'disconf_download_url')
@@ -50,7 +49,7 @@ def init_config():
     os.system('cp /opt/docker/docker-disconf/disconf-build/config/application.properties.sample /opt/docker/docker-disconf/disconf-build/config/application.properties')
     os.system('cp /opt/docker/docker-disconf/disconf-build/config/jdbc-mysql.properties.sample /opt/docker/docker-disconf/disconf-build/config/jdbc-mysql.properties')
     os.system('cp /opt/docker/docker-disconf/disconf-build/config/redis-config.properties.sample /opt/docker/docker-disconf/disconf-build/config/redis-config.properties')
-    io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/config/zoo.properties.sample','${zookeeper-host}',disconf_machine_ip,'/opt/docker/docker-disconf/disconf-build/config/zoo.properties')
+    io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/config/zoo.properties.sample',{'${zookeeper-host}':disconf_machine_ip},'/opt/docker/docker-disconf/disconf-build/config/zoo.properties')
 
 
 # def download_disconf():
