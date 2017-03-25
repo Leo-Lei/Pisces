@@ -41,13 +41,7 @@ def init_config():
     disconf_download_url = cp.get('docker-file', 'disconf_download_url')
     disconf_archive_top_dir = cp.get('docker-file', 'disconf_archive_top_dir')
     io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/Dockerfile.sample',
-                           '${disconf_download_url}',
-                           disconf_download_url,
-                           '/opt/docker/docker-disconf/disconf-build/Dockerfile')
-
-    io.replace_str_in_file('/opt/docker/docker-disconf/disconf-build/Dockerfile.sample',
-                           '${disconf_archive_top_dir}',
-                           disconf_archive_top_dir,
+                           {'${disconf_download_url}':disconf_download_url,'${disconf_archive_top_dir}':disconf_archive_top_dir},
                            '/opt/docker/docker-disconf/disconf-build/Dockerfile')
 
     os.system('cp /opt/docker/docker-disconf/disconf-app/Dockerfile.sample /opt/docker/docker-disconf/disconf-app/Dockerfile')

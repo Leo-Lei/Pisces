@@ -1,12 +1,13 @@
 import pisces.utils.hello
+import pisces.utils.io as io
 
 import ConfigParser
 
-cp = ConfigParser.SafeConfigParser()
-cp.read('app.conf')
-
-# print cp.items('docker-file')
-print cp.get('docker-file','zookeeper_download_url')
+# cp = ConfigParser.SafeConfigParser()
+# cp.read('app.conf')
+#
+# # print cp.items('docker-file')
+# print cp.get('docker-file','zookeeper_download_url')
 
 # print '================'
 #
@@ -34,3 +35,6 @@ print cp.get('docker-file','zookeeper_download_url')
 # f.write('hello')
 # f.flush()
 # f.close()
+
+
+io.replace_str_in_file('test.txt',{'${zookeeper_download_url}':'aaaaa','${work_dir}':'bbbb'})
