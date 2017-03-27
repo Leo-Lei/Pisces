@@ -13,7 +13,7 @@ def run():
 
 
 def build_and_push_img():
-    os.system('cp /opt/docker/mysql/my.cnf.sample /opt/docker/my.cnf')
+    os.system('cp /opt/docker/mysql/my.cnf.sample /opt/docker/mysql/my.cnf')
     cp = ConfigParser.SafeConfigParser()
     cp.read('/opt/app.conf')
     docker_registry_url = cp.get('docker-registry', 'url')
