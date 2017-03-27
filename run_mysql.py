@@ -27,6 +27,8 @@ def run_mysql_container():
     cp = ConfigParser.SafeConfigParser()
     cp.read('/opt/app.conf')
     docker_registry_url = cp.get('docker-registry', 'url')
+    os.system('docker stop mysql')
+    os.system('docker rm mysql')
     os.system('docker run --name mysql -it -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root {0}/mysql'.format(docker_registry_url))
 
 
