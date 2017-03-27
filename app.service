@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 User=root
-ExecStart=/usr/java/jdk1.8.0_92/bin/java -jar -Xms1024m -Xmx2560m -Dlogs.dir=/opt/app/logs/score-rank -Ddata.dir=/opt/app/.data/score-rank -Ddisconf.download.dir=/opt/app/.data/score-rank/disconf  /opt/app/score-rank.jar
+ExecStart=/usr/bin/java -jar -Xms800m -Xmx800m -Dlogs.dir=/opt/logs -Ddata.dir=/opt/data -Ddisconf.download.dir=/opt/data/disconf  /opt/app/app.jar
 SuccessExitStatus=143
 
 [Install]

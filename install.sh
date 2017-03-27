@@ -26,3 +26,15 @@ chmod 744 /opt/pisces/*.py
 cp /opt/pisces/run.py /opt/run.py
 chmod 744 /opt/run.py
 cp /opt/pisces/app.conf /opt/app.conf
+
+mkdir -p /opt/app
+mkdir -p /opt/logs
+mkdir -p /opt/data
+mkdir -p /opt/data/dubbo
+mkdir -p /opt/data/disconf
+
+chmod 766 /opt/app
+chmod 766 /opt/logs
+chmod 766 /opt/data
+chmod 766 /opt/data/dubbo
+chmod 766 /opt/data/disconf
