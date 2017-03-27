@@ -7,6 +7,10 @@ import pisces.utils.io as io
 
 
 def run():
+    create_db()
+
+
+def create_db():
     os.system('curl -fSL 172.31.16.140/sql/create_database.sql -o /opt/create_database.sql')
     os.system('mysql -h 172.31.19.95 -P 3306 -uroot -proot < /opt/create_database.sql')
 
@@ -22,6 +26,16 @@ def run():
         for table in tables:
             os.system('curl -fSL 172.31.16.140/sql/{0}-{1}.sql -o /opt/{0}-{1}.sql'.format(db, table))
             os.system('mysql -h 172.31.19.95 -P 3306 -uroot -proot -D{0} < /opt/{0}-{1}.sql'.format(db, table))
+
+
+def create_mysql_user():
+    cp = ConfigParser.SafeConfigParser()
+    cp.read('/opt/app.conf')
+    new_mysql_user = cp.get('mysql', 'user')
+    new_mysql_passwd = cp.get('mysql','password')
+
+    os.system('mysql -h 172.31.19.95 -P 3306 -uroot -proot -e "create user \'{0}\'@\'%\' identified by \'{1}\'"'.format(new_mysql_user,new_mysql_passwd))
+    os.system('mysql -h 172.31.19.95 -P 3306 -uroot -proot -e "grant all on *.* to \'{0}\'@\'%\'"'.format(new_mysql_user))
 
 
 if __name__ == '__main__':
