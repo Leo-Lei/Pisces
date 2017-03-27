@@ -8,7 +8,7 @@ import pisces.utils.io as io
 
 def run():
     create_db()
-    create_mysql_user
+    create_mysql_user()
 
 
 def create_db():
@@ -37,6 +37,8 @@ def create_mysql_user():
 
     os.system('mysql -h 172.31.19.95 -P 3306 -uroot -proot -e "create user \'{0}\'@\'%\' identified by \'{1}\'"'.format(new_mysql_user,new_mysql_passwd))
     os.system('mysql -h 172.31.19.95 -P 3306 -uroot -proot -e "grant all on *.* to \'{0}\'@\'%\'"'.format(new_mysql_user))
+
+    os.system('mysql -h 172.31.19.95 -P 3306 -uroot -proot -e "flush privileges"')
 
 
 if __name__ == '__main__':
