@@ -11,8 +11,6 @@ def run():
         build_and_push_img()
     run_mysql_container()
 
-    init_config()
-
 
 def build_and_push_img():
     os.system('cp /opt/docker/mysql/my.cnf.sample /opt/docker/my.cnf')
