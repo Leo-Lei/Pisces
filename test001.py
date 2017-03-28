@@ -2,6 +2,7 @@ import pisces.utils.hello
 import pisces.utils.io as io
 
 import ConfigParser
+import os
 
 # cp = ConfigParser.SafeConfigParser()
 # cp.read('app.conf')
@@ -37,4 +38,11 @@ import ConfigParser
 # f.close()
 
 
-io.replace_str_in_file('test.txt',{'${zookeeper_download_url}':'aaaaa','${work_dir}':'bbbb'})
+# io.replace_str_in_file('test.txt',{'${zookeeper_download_url}':'aaaaa','${work_dir}':'bbbb'})
+
+
+os.system("""ls \
+-lh \
+/Users/leiwei
+
+""")
