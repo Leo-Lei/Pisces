@@ -42,7 +42,7 @@ def is_jar_or_war():
 def copy_to_app_dir():
     os.system('rm -rf /opt/app/*')
     os.system('cp /opt/*.jar /opt/app/app.jar')
-    os.system('cp /opt/*.war /opt/app/app.war')
+    os.system('cp /opt/*.war /opt/app/ROOT.war')
 
 
 if __name__ == '__main__':
