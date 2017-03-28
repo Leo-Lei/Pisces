@@ -36,6 +36,7 @@ def run_tomcat_container():
     -v /opt/data:/opt/data \
     {0}/tomcat
     """.format(docker_registry_url)
+    os.system(cmd)
 
 
 if __name__ == '__main__':
