@@ -4,7 +4,7 @@
 import os
 import shutil
 import pisces.utils.sh as sh
-
+import run_tomcat
 
 def run():
     copy_to_app_dir()
@@ -30,6 +30,8 @@ def run_jar():
 
 def run_war():
     print 'run war......'
+    run_tomcat.run_mysql_container()
+
 
 
 def is_jar_or_war():
