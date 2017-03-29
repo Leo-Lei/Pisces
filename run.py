@@ -30,7 +30,7 @@ def run_jar():
 
 def run_war():
     print 'run war......'
-    run_tomcat.run_tomcat_container()
+    run_tomcat.run()
 
 
 def is_jar_or_war():
