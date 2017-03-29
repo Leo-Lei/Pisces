@@ -9,7 +9,8 @@ import pisces.utils.io as io
 def run():
     if (len(sys.argv)) > 1 and sys.argv[1] == 'push':
         build_and_push_img()
-    run_mysql_container()
+    else:
+        run_mysql_container()
 
 
 def build_and_push_img():
