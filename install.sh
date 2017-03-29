@@ -38,3 +38,5 @@ chmod 766 /opt/logs
 chmod 766 /opt/data
 chmod 766 /opt/data/dubbo
 chmod 766 /opt/data/disconf
+
+/opt/pisces/install_mysql_client.py
