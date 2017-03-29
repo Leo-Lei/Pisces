@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 User=root
-ExecStart=/usr/bin/java -jar -Xms800m -Xmx800m -Dlogs.dir=/opt/logs -Ddata.dir=/opt/data -Ddisconf.download.dir=/opt/data/disconf  /opt/app/app.jar
+ExecStart=/usr/bin/java -jar -Xms500m -Xmx800m -Dlogs.dir=/opt/logs -Ddata.dir=/opt/data -Ddisconf.download.dir=/opt/data/disconf  /opt/app/app.jar
 SuccessExitStatus=143
 
 [Install]
