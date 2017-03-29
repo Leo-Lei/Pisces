@@ -10,6 +10,7 @@ def install():
     os.system('unzip /opt/tomcat.zip -d /opt')
     os.system('mkdir /opt/tomcat')
     os.system('cp -r /opt/apache-tomcat-8.5.12/* /opt/tomcat')
+    os.system('rm -rf /opt/tomcat.zip')
     os.system('rm -rf /opt/apache-tomcat-8.5.12')
     os.system('chmod 744 /opt/tomcat/bin/catalina.sh')
     os.system('chmod 744 /opt/tomcat/bin/startup.sh')
