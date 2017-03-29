@@ -32,11 +32,13 @@ mkdir -p /opt/logs
 mkdir -p /opt/data
 mkdir -p /opt/data/dubbo
 mkdir -p /opt/data/disconf
+mkdir -p /opt/data/mongo
 
 chmod 766 /opt/app
 chmod 766 /opt/logs
 chmod 766 /opt/data
 chmod 766 /opt/data/dubbo
 chmod 766 /opt/data/disconf
+chmod 766 /opt/data/mongo
 
 /opt/pisces/install_mysql_client.py
