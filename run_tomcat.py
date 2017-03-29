@@ -12,6 +12,7 @@ def run():
     os.system('sh /opt/tomcat/bin/startup.sh')
 
 
+
 # def build_and_push_img():
 #     cp = ConfigParser.SafeConfigParser()
 #     cp.read('/opt/app.conf')
