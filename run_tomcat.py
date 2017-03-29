@@ -8,7 +8,7 @@ import ConfigParser
 def run():
     os.system('sh /opt/tomcat/bin/shutdown.sh')
     os.system('rm -rf /opt/tomcat/webapps/*')
-    os.system('cp /opt/app/*.war /opt/tomcat/webapps')
+    os.system('cp /opt/app/*.war /opt/tomcat/webapps/ROOT.war')
     os.system('sh /opt/tomcat/bin/startup.sh')
 
 

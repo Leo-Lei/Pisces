@@ -3,4 +3,4 @@ hello
 
 curl -s "https://raw.githubusercontent.com/Leo-Lei/Pisces/master/install.sh" | bash
 
-curl -fSL https://github.com/hello.zip -o hello.zip
+curl -fSL https://github.com/hello.zipcd  -o hello.zip
