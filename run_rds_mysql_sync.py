@@ -8,12 +8,23 @@ import re
 
 
 def run():
+    clean()
     download_rds_backup_extract()
     install_xtrabackup()
     download_rds_backup_file()
     restore_by_xtrabackup()
     start_all_local_sync_tomcat()
     run_merge_mysql()
+
+
+def clean():
+    os.system('docker stop rds-common')
+    os.system('docker rm rds-common')
+    os.system('docker stop rds-business')
+    os.system('docker rm rds-business')
+
+    os.system('rm -rf /opt/mysql/rds-common/*')
+    os.system('rm -rf /opt/mysql/rds-business/*')
 
 
 def download_rds_backup_extract():
@@ -69,7 +80,7 @@ def start_all_local_sync_tomcat():
     db2_master_user = cp.get('rds-mysql-sync', 'db2.master.user')
     db2_master_password = cp.get('rds-mysql-sync', 'db2.master.password')
 
-    start_local_sync_tomcat(db1_name,db1_serverid,db1_master_host,db1_master_user,db1_master_password)
+    start_local_sync_tomcat(db1_name, db1_serverid, db1_master_host, db1_master_user, db1_master_password)
     start_local_sync_tomcat(db2_name, db2_serverid, db2_master_host, db2_master_user, db2_master_password)
 
 
@@ -91,7 +102,7 @@ def start_local_sync_tomcat(dbname,serverid,master_host,master_user,master_passw
     os.system('docker exec -it rds-{0} service mysql start'.format(dbname))
 
     # set @@GLOBAL.GTID_PURGED
-    s = io.read_file_2_str('/opt/mysql/rds-{0}/xtrabackup_slave_info')
+    s = io.read_file_2_str('/opt/mysql/rds-{0}/xtrabackup_slave_info'.format(dbname))
     global_gtid_purged = re.findall(r"'(.+?)'", s)[0]
     os.system('docker exec -it rds-{0} mysql -uroot -e "reset master"'.format(dbname))
     os.system('docker exec -it rds-{0} mysql -uroot -e "SET @@GLOBAL.GTID_PURGED=\'{1}\';"'.format(dbname,global_gtid_purged))
