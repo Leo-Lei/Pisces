@@ -6,6 +6,7 @@ import shutil
 
 
 def install():
+    os.system('rm -rf /opt/tomcat')
     os.system('curl -fSL 172.31.16.140/tomcat.zip -o /opt/tomcat.zip')
     os.system('unzip /opt/tomcat.zip -d /opt')
     os.system('mkdir /opt/tomcat')
