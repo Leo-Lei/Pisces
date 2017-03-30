@@ -12,7 +12,7 @@ def run():
     install_xtrabackup()
     download_rds_backup_file()
     restore_by_xtrabackup()
-    start_local_sync_tomcat()
+    start_all_local_sync_tomcat()
     run_merge_mysql()
 
 
@@ -54,7 +54,7 @@ def restore_by_xtrabackup():
     os.system("chown -R mysql:mysql /opt/mysql/rds-{0}".format(db2_name))
 
 
-def start_local_sync_tomcat():
+def start_all_local_sync_tomcat():
     cp = ConfigParser.SafeConfigParser()
     cp.read('/opt/app.conf')
     db1_name = cp.get('rds-mysql-sync', 'db1.name')
@@ -79,17 +79,7 @@ def start_local_sync_tomcat(dbname,serverid,master_host,master_user,master_passw
                            '/opt/docker/mysql/my.cnf')
 
     os.system('docker build -t rds-{0} /opt/docker/mysql'.format(dbname))
-    os.system(
-        'docker run --name rds-{0} -it -d -v /opt/mysql/rds-{0}:/var/lib/mysql rds-{0} /bin/bash'.format(dbname))
-
-    # run db2 by docker
-    io.replace_str_in_file('/opt/docker/mysql/my.cnf.rds-sync.sample',
-                           {'${server-id}': serverid},
-                           '/opt/docker/mysql/my.cnf')
-
-    os.system('docker build -t rds-{0} /opt/docker/mysql'.format(dbname))
-    os.system(
-        'docker run --name rds-{0} -it -d -v /opt/mysql/rds-{0}:/var/lib/mysql rds-{0} /bin/bash'.format(dbname))
+    os.system('docker run --name rds-{0} -it -d -v /opt/mysql/rds-{0}:/var/lib/mysql rds-{0} /bin/bash'.format(dbname))
 
     os.system('docker exec -it rds-{0} chown -R mysql:mysql /var/lib/mysql'.format(dbname))
     os.system('docker exec -it rds-{0} service mysql start'.format(dbname))
