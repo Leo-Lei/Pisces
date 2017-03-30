@@ -37,8 +37,8 @@ def download_rds_backup_file():
     os.system("wget '{0}' -O /root/{1}.tar.gz".format(db1_backup_url,db1_name))
     os.system("wget '{0}' -O /root/{1}.tar.gz".format(db2_backup_url, db2_name))
 
-    os.system("bash /root/rds_backup_extract.sh -f /root/{0}.tar.gz -C /opt/mysql/rds-{0}", db1_name)
-    os.system("bash /root/rds_backup_extract.sh -f /root/{0}.tar.gz -C /opt/mysql/rds-{0}", db2_name)
+    os.system("bash /root/rds_backup_extract.sh -f /root/{0}.tar.gz -C /opt/mysql/rds-{0}".format(db1_name))
+    os.system("bash /root/rds_backup_extract.sh -f /root/{0}.tar.gz -C /opt/mysql/rds-{0}".format(db2_name))
 
 
 def restore_by_xtrabackup():
