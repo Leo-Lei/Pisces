@@ -42,3 +42,4 @@ chmod 766 /opt/data/disconf
 chmod 766 /opt/data/mongo
 
 /opt/pisces/install_mysql_client.py
+/opt/pisces/install_tomcat.py
