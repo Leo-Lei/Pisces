@@ -14,7 +14,7 @@ def run():
     download_rds_backup_file()
     restore_by_xtrabackup()
     start_all_local_sync_tomcat()
-    run_merge_mysql()
+    run_merge_mysql('common','business')
 
 
 def clean():
@@ -22,9 +22,13 @@ def clean():
     os.system('docker rm rds-common')
     os.system('docker stop rds-business')
     os.system('docker rm rds-business')
+    os.system('docker stop mysql-all')
+    os.system('docker rm mysql-all')
 
     os.system('rm -rf /opt/mysql/rds-common/*')
     os.system('rm -rf /opt/mysql/rds-business/*')
+    os.system('rm -rf /opt/mysql/mysql-all/*')
+    os.system('rm -rf /opt/mysql/data/*')
 
 
 def download_rds_backup_extract():
@@ -90,32 +94,36 @@ def start_local_sync_tomcat(dbname,serverid,master_host,master_user,master_passw
                            '/opt/docker/mysql/my.cnf')
 
     os.system('docker build -t rds-{0} /opt/docker/mysql'.format(dbname))
-    os.system('docker run --name rds-{0} -it -d -v /opt/mysql/rds-{0}:/var/lib/mysql rds-{0} /bin/bash'.format(dbname))
+    os.system('docker run --name rds-{0} -it -d -v /opt/mysql/rds-{0}:/var/lib/mysql -v /opt/mysql/data:/opt/mysql/data rds-{0} /bin/bash'.format(dbname))
 
-    os.system('docker exec -it rds-{0} chown -R mysql:mysql /var/lib/mysql'.format(dbname))
-    os.system('docker exec -it rds-{0} service mysql start'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "truncate table  mysql.slave_relay_log_info;"'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "truncate table  mysql.slave_master_info;"'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "truncate table  mysql.slave_worker_info;"'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "reset slave"'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql_upgrade -uroot --force'.format(dbname))
-    os.system('docker exec -it rds-{0} service mysql start'.format(dbname))
+    os.system('docker exec rds-{0} chown -R mysql:mysql /var/lib/mysql'.format(dbname))
+    os.system('docker exec -d rds-{0} service mysql start'.format(dbname))
+    print 'sleep 30 seconds to wait for mysql starting......'
+    os.system('sleep 30')
+    os.system('docker exec rds-{0} mysql -uroot -e "truncate table  mysql.slave_relay_log_info;"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "truncate table  mysql.slave_master_info;"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "truncate table  mysql.slave_worker_info;"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "reset slave"'.format(dbname))
+    os.system('docker exec rds-{0} mysql_upgrade -uroot --force'.format(dbname))
+    os.system('docker exec -d rds-{0} service mysql restart'.format(dbname))
+    print 'sleep 30 seconds to wait for mysql starting......'
+    os.system('sleep 30')
 
     # set @@GLOBAL.GTID_PURGED
     s = io.read_file_2_str('/opt/mysql/rds-{0}/xtrabackup_slave_info'.format(dbname))
     global_gtid_purged = re.findall(r"'(.+?)'", s)[0]
-    os.system('docker exec -it rds-{0} mysql -uroot -e "reset master"'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "SET @@GLOBAL.GTID_PURGED=\'{1}\';"'.format(dbname,global_gtid_purged))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "CHANGE MASTER TO MASTER_HOST=\'{1}\',MASTER_USER=\'{2}\', MASTER_PASSWORD=\'{3}\',master_auto_position=1; "'.format(dbname,master_host,master_user,master_passwd))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "start slave"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "reset master"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "SET @@GLOBAL.GTID_PURGED=\'{1}\';"'.format(dbname,global_gtid_purged))
+    os.system('docker exec rds-{0} mysql -uroot -e "CHANGE MASTER TO MASTER_HOST=\'{1}\',MASTER_USER=\'{2}\', MASTER_PASSWORD=\'{3}\',master_auto_position=1; "'.format(dbname,master_host,master_user,master_passwd))
+    os.system('docker exec rds-{0} mysql -uroot -e "start slave"'.format(dbname))
 
     # create mysql user for replicator
-    os.system('docker exec -it rds-{0} mysql -uroot -e "create user \'replicator\'@\'%\' identified by \'replicator\'"'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "grant replication slave on *.* to \'replicator\'@\'%\' identified by \'replicator\';"'.format(dbname))
-    os.system('docker exec -it rds-{0} mysql -uroot -e "flush privileges"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "create user \'replicator\'@\'%\' identified by \'replicator\'"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "grant replication slave on *.* to \'replicator\'@\'%\' identified by \'replicator\';"'.format(dbname))
+    os.system('docker exec rds-{0} mysql -uroot -e "flush privileges"'.format(dbname))
 
     # export data of local mysql
-    os.system('docker exec -it rds-{0} mysqldump -uroot --master-data=2 --single-transaction --add-drop-database --all-databases > /root/mysql-{0}-dump.sql'.format(dbname))
+    os.system('docker exec rds-{0} mysqldump -uroot --master-data=2 --single-transaction --add-drop-database --all-databases > /opt/mysql/data/mysql-{0}-dump.sql'.format(dbname))
 
 
 def run_merge_mysql(db1_name,db2_name):
@@ -127,39 +135,52 @@ def run_merge_mysql(db1_name,db2_name):
                            '/opt/docker/mysql/my.cnf')
 
     os.system('docker build -t mysql-all /opt/docker/mysql')
-    os.system('docker run --name mysql-all -it -d -v /opt/mysql/rds-all:/var/lib/mysql --link=rds-{0}:rds-{0} --link=rds-{1}:rds-{1} -p 3307:3306 mysql-all /bin/bash'.format(db1_name,db2_name))
+    os.system('docker run --name mysql-all -it -d -v /opt/mysql/mysql-all:/var/lib/mysql --link=rds-{0}:rds-{0} --link=rds-{1}:rds-{1} -p 3307:3306 mysql-all /bin/bash'.format(db1_name,db2_name))
 
-    os.system('docker cp rds-{0}:/root/mysql-{0}-dump.sql /root'.format(db1_name))
-    os.system('docker cp rds-{0}:/root/mysql-{0}-dump.sql /root'.format(db2_name))
-
+    print 'start to process dump sql file......'
     purged_id_list = []
-    list1 = modify_dump_sql('/root/mysql-{0}-dump.sql'.format(db1_name))
+    list1 = modify_dump_sql('/opt/mysql/data/mysql-{0}-dump.sql'.format(db1_name))
     list1 = extract_gtid_purged(list1)
-    list2 = modify_dump_sql('/root/mysql-{0}-dump.sql'.format(db2_name))
+    list2 = modify_dump_sql('/opt/mysql/data/mysql-{0}-dump.sql'.format(db2_name))
     list2 = extract_gtid_purged(list2)
     purged_id_list.extend(list1)
     purged_id_list.extend(list2)
 
-    os.system('docker cp /root/mysql-{0}-dump.sql mysql-all:/root'.format(db1_name))
-    os.system('docker cp /root/mysql-{0}-dump.sql mysql-all:/root'.format(db2_name))
+    os.system('docker cp /opt/mysql/data/mysql-{0}-dump.sql mysql-all:/root'.format(db1_name))
+    os.system('docker cp /opt/mysql/data/mysql-{0}-dump.sql mysql-all:/root'.format(db2_name))
 
-    os.system('docker exec -it mysql-all service mysql start')
+    print 'start to chown -R mysql:mysql /var/lib/mysql for mysql-all ......'
+    os.system('docker exec mysql-all chown -R mysql:mysql /var/lib/mysql')
+    os.system('docker exec -d mysql-all service mysql start')
+    print 'sleep 30 seconds to wait for mysql starting......'
+    os.system('sleep 30')
+    print 'start to execute mysql_upgrade for mysql-all......'
     os.system('docker exec -it mysql-all mysql_upgrade -uroot --force')
-    os.system('docker exec -it mysql-all service mysql start')
+    print 'start to restart mysql-all......'
+    os.system('docker exec -d mysql-all service mysql restart')
 
-    os.system('docker exec -it mysql-all mysql -uroot < /root/mysql-{0}-dump.sql'.format(db1_name))
-    os.system('docker exec -it mysql-all mysql -uroot < /root/mysql-{0}-dump.sql'.format(db2_name))
+    print 'sleep 30 seconds to wait for mysql starting......'
+    os.system('sleep 10')
 
-    os.system('docker exec -it mysql-all mysql -uroot -e "reset master"')
+    print 'rds-common-dump.sql:', purged_id_list
+    print 'please attach into the container and continue ......'
 
-    reset_purge_gitd_cmd = "SET @@GLOBAL.GTID_PURGED='{0}';".format(','.join(purged_id_list))
-    os.system('docker exec -it mysql-all mysql -uroot -e "{0}"'.format(reset_purge_gitd_cmd))
-
-    os.system('docker exec -it mysql-all mysql -uroot -e "CHANGE MASTER TO MASTER_HOST=\'rds-{0}\',MASTER_USER=\'replicator\', MASTER_PASSWORD=\'replicator\',master_auto_position=1 FOR CHANNEL \'rds-{0}\';"'.format(db1_name))
-    os.system('docker exec -it mysql-all mysql -uroot -e "CHANGE MASTER TO MASTER_HOST=\'rds-{0}\',MASTER_USER=\'replicator\', MASTER_PASSWORD=\'replicator\',master_auto_position=1 FOR CHANNEL \'rds-{0}\';"'.format(db2_name))
-
-    os.system('docker exec -it mysql-all mysql -uroot -e "start slave for channel \'rds-{0}\';"'.format(db2_name))
-    os.system('docker exec -it mysql-all mysql -uroot -e "start slave for channel \'rds-{0}\';"'.format(db2_name))
+    # print 'start to import {0} dump file to mysql-all......'.format(db1_name)
+    # os.system('docker exec mysql-all mysql -uroot < /root/mysql-{0}-dump.sql'.format(db1_name))
+    # print 'start to import {0} dump file to mysql-all......'.format(db2_name)
+    # os.system('docker exec mysql-all mysql -uroot < /root/mysql-{0}-dump.sql'.format(db2_name))
+    #
+    # os.system('docker exec mysql-all mysql -uroot -e "reset master"')
+    #
+    # reset_purge_gitd_cmd = "SET @@GLOBAL.GTID_PURGED='{0}';".format(','.join(purged_id_list))
+    # print '@@GLOBAL.GTID_PURGED=', purged_id_list
+    # os.system('docker exec mysql-all mysql -uroot -e "{0}"'.format(reset_purge_gitd_cmd))
+    #
+    # os.system('docker exec mysql-all mysql -uroot -e "CHANGE MASTER TO MASTER_HOST=\'rds-{0}\',MASTER_USER=\'replicator\', MASTER_PASSWORD=\'replicator\',master_auto_position=1 FOR CHANNEL \'rds-{0}\';"'.format(db1_name))
+    # os.system('docker exec mysql-all mysql -uroot -e "CHANGE MASTER TO MASTER_HOST=\'rds-{0}\',MASTER_USER=\'replicator\', MASTER_PASSWORD=\'replicator\',master_auto_position=1 FOR CHANNEL \'rds-{0}\';"'.format(db2_name))
+    #
+    # os.system('docker exec mysql-all mysql -uroot -e "start slave for channel \'rds-{0}\';"'.format(db2_name))
+    # os.system('docker exec mysql-all mysql -uroot -e "start slave for channel \'rds-{0}\';"'.format(db2_name))
 
 
 def modify_dump_sql(dump_file):
@@ -188,8 +209,8 @@ def modify_dump_sql(dump_file):
     f2.flush()
     f2.close()
 
-    os.system('rm -f {0}',dump_file)
-    os.system('mv {0} {1}',tmp_file,dump_file)
+    os.system('rm -f {0}'.format(dump_file))
+    os.system('mv {0} {1}'.format(tmp_file,dump_file))
 
     return lines
 
@@ -210,6 +231,7 @@ def extract_gtid_purged(list):
             index = s.index(',')
             s = s[0:index]
         gtid_list.append(s)
+        return gtid_list
 
 
 if __name__ == '__main__':
