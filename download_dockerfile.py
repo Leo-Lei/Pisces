@@ -7,6 +7,8 @@ import pisces.utils.sh as sh
 
 
 def run():
+    sh.exe('rm -rf /opt/docker')
+    sh.exe('rm -rf /opt/docker.zip')
     sh.exe('wget https://codeload.github.com/Leo-Lei/docker/zip/master -O /opt/docker.zip')
     sh.exe('unzip /opt/docker.zip -d /opt')
     sh.exe('rm -rf /opt/docker.zip')
