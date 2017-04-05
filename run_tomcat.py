@@ -12,8 +12,8 @@ def run():
     os.system('sleep 10')
     output = commands.getoutput('ps -ef | grep tomcat |grep -v "grep"|awk \'{print $2}\'')
     if output != '':
-        list = output.split('\n')
-        for pid in list:
+        pid_list = output.split('\n')
+        for pid in pid_list:
             os.system('kill -9 {0}'.format(pid))
             print 'kill old tomcat process {0}'.format(pid)
     else:
