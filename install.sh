@@ -25,6 +25,7 @@ chmod 744 /opt/pisces/*.py
 
 cp /opt/pisces/run.py /opt/run.py
 chmod 744 /opt/run.py
+mv /opt/app.conf /opt/app.conf.backup
 cp /opt/pisces/app.conf /opt/app.conf
 
 mkdir -p /opt/app
