@@ -21,7 +21,14 @@ def create_db():
         os.system('curl -fSL 172.31.16.140/sql/{0}.sql -o /opt/{0}.sql'.format(db))
         os.system('mysql -h 172.31.19.131 -P 3306 -uroot -proot -D{0} < /opt/{0}.sql'.format(db))
 
-    init_tables = {'credit': ['level_info', 'rule_config', 'score_rule']}
+    init_tables = {
+        'credit':    ['level_info', 'rule_config', 'score_rule'],
+        'comment':   ['comment_content', 'trouble_content'],
+        'device':    ['sequence', 'trouble_item'],
+        'invite':    ['config'],
+        'push':      ['template'],
+        'qibeibike': ['rank_discount', 'system_config']
+    }
 
     for (db, tables) in init_tables.items():
         for table in tables:
