@@ -32,8 +32,17 @@ def create_db():
 
     for (db, tables) in init_tables.items():
         for table in tables:
+            print 'curl -fSL 172.31.16.140/sql/{0}-{1}.sql -o /opt/{0}-{1}.sql'.format(db, table)
             os.system('curl -fSL 172.31.16.140/sql/{0}-{1}.sql -o /opt/{0}-{1}.sql'.format(db, table))
+            print 'mysql -h 172.31.19.131 -P 3306 -uroot -proot -D{0} < /opt/{0}-{1}.sql'.format(db, table)
             os.system('mysql -h 172.31.19.131 -P 3306 -uroot -proot -D{0} < /opt/{0}-{1}.sql'.format(db, table))
+
+    init_sqls = ['console_init.sql']
+    for sql in init_sqls:
+        print 'curl -fSL 172.31.16.140/sql/{0} -o /opt/{0}'.format(sql)
+        os.system('curl -fSL 172.31.16.140/sql/{0} -o /opt/{0}'.format(sql))
+        print 'mysql -h 172.31.19.131 -P 3306 -uroot -proot < /opt/{0}'.format(sql)
+        os.system('mysql -h 172.31.19.131 -P 3306 -uroot -proot < /opt/{0}'.format(sql))
 
 
 def create_mysql_user():
