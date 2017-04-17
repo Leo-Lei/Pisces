@@ -22,6 +22,8 @@ def run():
     os.system('rm -rf /opt/tomcat/webapps/*')
     os.system('cp /opt/app/*.war /opt/tomcat/webapps/ROOT.war')
     os.system('sh /opt/tomcat/bin/startup.sh')
+    os.system('sleep 10')
+    os.system('curl localhost:8080/check_health')
 
 
 if __name__ == '__main__':
