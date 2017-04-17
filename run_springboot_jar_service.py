@@ -1,5 +1,6 @@
+#! /usr/bin/python
+
 import os
-import sys
 import pisces_config
 import pisces.utils.io as io
 
