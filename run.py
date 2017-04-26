@@ -3,6 +3,7 @@
 
 import sys
 import run_springboot_jar_service
+import os
 
 
 def run():
@@ -12,8 +13,10 @@ def run():
 
 
 def run_app(app):
-    run_springboot_jar_service.run(app)
-
+    if app == "lock-platform":
+        run_jar()
+    else:
+        run_springboot_jar_service.run(app)
 
 # def copyfile(src, dst):
 #     shutil.copyfile(src, dst)
@@ -23,9 +26,10 @@ def run_app(app):
 #     return os.path.split(os.path.realpath(__file__))[0]
 
 
-# def run_jar():
-#     sh.exe('systemctl daemon-reload')
-#     sh.exe('systemctl restart app.service')
+def run_jar():
+    copy_to_app_dir()
+    os.system('systemctl daemon-reload')
+    os.system('systemctl restart app.service')
 
 
 # def run_war():
@@ -40,10 +44,10 @@ def run_app(app):
 #         return 'war'
 
 
-# def copy_to_app_dir():
-#     os.system('rm -rf /opt/app/*')
-#     os.system('cp /opt/*.jar /opt/app/app.jar')
-#     os.system('cp /opt/*.war /opt/app/ROOT.war')
+def copy_to_app_dir():
+    os.system('rm -rf /opt/app/*')
+    os.system('cp /opt/*.jar /opt/app/app.jar')
+    os.system('cp /opt/*.war /opt/app/ROOT.war')
 
 
 if __name__ == '__main__':
