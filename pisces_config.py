@@ -5,13 +5,23 @@ class PiscesConfig(object):
     __instance = None
 
     def __init__(self):
-        f = open('_config.yml')
+        f = open('/opt/_config.yml')
         cfg = yaml.load(f)
 
         self.mysql = PiscesConfig.Mysql(cfg['mysql'])
         self.dockerfile = PiscesConfig.Dockerfile(cfg['dockerfile'])
         self.docker_registry = cfg['docker-registry']
         self.rds_mysql_sync = PiscesConfig.RdsMysqlSync(cfg['rds-mysql-sync'])
+
+        apps = {}
+        for app in cfg['apps']:
+            name = app['name']
+            apps[name] = PiscesConfig.PiscesApp(app)
+        self.apps = apps
+
+        self.jar_dir = cfg['jar_dir']
+        self.logs_dir = cfg['logs_dir']
+        self.data_dir = cfg['data_dir']
 
     def get_mysql(self):
         """
@@ -36,6 +46,27 @@ class PiscesConfig(object):
         :rtype: PiscesConfig.Dockerfile
         """
         return self.dockerfile
+
+    def get_app(self, app):
+        """
+        :rtype: PiscesConfig.PiscesApp
+        """
+        return self.apps[app]
+
+    def get_jar_dir(self):
+        """
+        :rtype: PiscesConfig.PiscesApp
+        """
+        return self.jar_dir
+
+    def get_logs_dir(self):
+        """
+        :rtype: PiscesConfig.PiscesApp
+        """
+        return self.logs_dir
+
+    def get_data_dir(self):
+        return self.data_dir
 
     @staticmethod
     def get_instance():
@@ -124,7 +155,7 @@ class PiscesConfig(object):
             return self.init_users
 
     class RdsMysqlSync:
-        def __init__(self,cfg):
+        def __init__(self, cfg):
             _list = []
             rds_list = cfg['rds']
             for rds in rds_list:
@@ -198,3 +229,27 @@ class PiscesConfig(object):
             :rtype: str
             """
             return self.password
+
+    class PiscesApp:
+        def __init__(self, app):
+            self.name = app['name']
+            self.dubbo_port = app['dubbo_port']
+            self.http_port = app['http_port']
+
+        def get_name(self):
+            """
+            :rtype: str
+            """
+            return self.name
+
+        def get_http_port(self):
+            """
+            :rtype: str
+            """
+            return self.http_port
+
+        def get_dubbo_port(self):
+            """
+            :rtype: str
+            """
+            return self.dubbo_port

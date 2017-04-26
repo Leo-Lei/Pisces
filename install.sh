@@ -3,6 +3,7 @@
 yum install -y wget
 yum install -y unzip
 yum install -y vim
+yum install -y lsof
 
 rm -rf /opt/pisces
 rm -rf /opt/pisces.zip
@@ -20,16 +21,18 @@ chmod 744 /opt/pisces/*.py
 /opt/pisces/install_python_lib.py
 # install docker engine
 /opt/pisces/install_docker.py
-# install java
-/opt/pisces/install_java.py
 
-/opt/pisces/install_springboot_service.py
+# install java
+#/opt/pisces/install_java.py
+
+#/opt/pisces/install_springboot_service.py
 /opt/pisces/download_dockerfile.py
 
 cp /opt/pisces/run.py /opt/run.py
 chmod 744 /opt/run.py
-mv /opt/app.conf /opt/app.conf.backup
-cp /opt/pisces/app.conf /opt/app.conf
+mv /opt/_config.yml /opt/_config.yml.backup
+#cp /opt/pisces/app.conf /opt/app.conf
+cp /opt/pisces/_config.yml /opt/_config.yml
 
 mkdir -p /opt/app
 mkdir -p /opt/logs
@@ -45,5 +48,5 @@ chmod 766 /opt/data/dubbo
 chmod 766 /opt/data/disconf
 chmod 766 /opt/data/mongo
 
-/opt/pisces/install_mysql_client.py
-/opt/pisces/install_tomcat.py
+#/opt/pisces/install_mysql_client.py
+#/opt/pisces/install_tomcat.py

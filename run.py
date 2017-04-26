@@ -1,49 +1,49 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
-import shutil
-import pisces.utils.sh as sh
-import run_tomcat
+import sys
+import run_springboot_jar_service
+
 
 def run():
-    copy_to_app_dir()
-    jar_or_war = is_jar_or_war()
-    if jar_or_war == 'jar':
-        run_jar()
-    else:
-        run_war()
+    if (len(sys.argv)) > 1:
+        app = sys.argv[1]
+        run_app(app)
 
 
-def copyfile(src, dst):
-    shutil.copyfile(src, dst)
+def run_app(app):
+    run_springboot_jar_service.run(app)
 
 
-def getcwd():
-    return os.path.split(os.path.realpath(__file__))[0]
+# def copyfile(src, dst):
+#     shutil.copyfile(src, dst)
 
 
-def run_jar():
-    sh.exe('systemctl daemon-reload')
-    sh.exe('systemctl restart app.service')
+# def getcwd():
+#     return os.path.split(os.path.realpath(__file__))[0]
 
 
-def run_war():
-    print 'run war......'
-    run_tomcat.run()
+# def run_jar():
+#     sh.exe('systemctl daemon-reload')
+#     sh.exe('systemctl restart app.service')
 
 
-def is_jar_or_war():
-    if os.path.exists('/opt/app/app.jar'):
-        return 'jar'
-    else:
-        return 'war'
+# def run_war():
+#     print 'run war......'
+#     run_tomcat.run()
 
 
-def copy_to_app_dir():
-    os.system('rm -rf /opt/app/*')
-    os.system('cp /opt/*.jar /opt/app/app.jar')
-    os.system('cp /opt/*.war /opt/app/ROOT.war')
+# def is_jar_or_war():
+#     if os.path.exists('/opt/app/app.jar'):
+#         return 'jar'
+#     else:
+#         return 'war'
+
+
+# def copy_to_app_dir():
+#     os.system('rm -rf /opt/app/*')
+#     os.system('cp /opt/*.jar /opt/app/app.jar')
+#     os.system('cp /opt/*.war /opt/app/ROOT.war')
 
 
 if __name__ == '__main__':

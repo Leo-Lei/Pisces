@@ -17,6 +17,48 @@ mysql:
         - user: admin
           password: admin
 
+apps:
+     - name: score-rank
+       dubbo_port: 20880
+       http_port: 8080
+     - name: app-config
+       dubbo_port: 20881
+       http_port: 8081
+     - name: feedback
+       dubbo_port: 20881
+       http_port: 8081
+     - name: coupon
+       dubbo_port: 20881
+       http_port: 8081
+     - name: finance
+       dubbo_port: 20881
+       http_port: 8081
+     - name: push
+       dubbo_port: 20888
+       http_port: 8088
+     - name: invite
+       dubbo_port: 20881
+       http_port: 8081
+     - name: device
+       dubbo_port: 20881
+       http_port: 8081
+     - name: bike-core
+       dubbo_port: 20881
+       http_port: 8081
+     - name: app-bff
+       dubbo_port: 20881
+       http_port: 8081
+     - name: console
+       dubbo_port: 20881
+       http_port: 8081
+     - name: lock
+       dubbo_port: 20881
+       http_port: 8081
+
+jar_dir: /opt/jar
+logs_dir: /opt/logs
+data_dir: /opt/data
+
 rds-mysql-sync:
     rds:
         - name: rds1
@@ -34,3 +76,4 @@ rds-mysql-sync:
           password: admin
     merge-mysql:
         server_id: 300
+

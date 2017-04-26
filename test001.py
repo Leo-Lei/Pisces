@@ -154,7 +154,6 @@ import pisces_config
 # f()[0].
 
 
+app = pisces_config.PiscesConfig.get_instance().get_app('push')
+print app.get_name(), app.http_port , app.dubbo_port
 
-
-for (i,j) in [(1,2),(3,4),(5,6)]:
-    print i,j
